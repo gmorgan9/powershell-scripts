@@ -88,7 +88,7 @@ if ($response -eq "yes") {
     ${reset}
     
     # Change directory to the public_html folder
-    cd "/var/www/$domain/public_html/"
+    cd "/var/www/$dir/public_html/"
     
     # Run git clone command
     sudo git clone $githubRepo
@@ -99,8 +99,8 @@ else {
 }
 
 
-# Clear-Host
-# Write-Host "`n`n`n`n`n`n"
+Clear-Host
+Write-Host "`n`n`n`n`n`n"
 
 $checkMark = [char]0x2713
 
