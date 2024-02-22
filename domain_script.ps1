@@ -31,24 +31,17 @@ $cmd5 = "sudo touch /etc/apache2/sites-available/$domain.conf"
 # Execute the command
 Invoke-Expression $cmd5
 
-# Define the content to be appended to the file
-$content = @"
-<VirtualHost *:$port>
+$cmd6 = "echo '<VirtualHost *:$port>
 ServerAdmin webmaster@localhost
-ServerName http://$domain
-ServerAlias http://www.$domain
-DocumentRoot /var/www/$domain/public_html
-ErrorLog \${APACHE_LOG_DIR}/error.log
-CustomLog \${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-"@
-
-# Append the content to the file
-$cmd6 = "$content | Out-File -Append '/etc/apache2/sites-available/$domain.conf'"
+ServerName http://domain.com 
+ServerAlias http://www.domain.com 
+DocumentRoot /var/www/domain.com/public_html
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/domain.com.conf"
 
 # Execute the command
 Invoke-Expression $cmd6
-
 
 $cmd7 = "echo 'Listen $port' | sudo tee -a /etc/apache2/ports.conf"
 
