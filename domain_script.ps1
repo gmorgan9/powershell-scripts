@@ -31,9 +31,8 @@ $cmd5 = "sudo touch /etc/apache2/sites-available/$domain.conf"
 # Execute the command
 Invoke-Expression $cmd5
 
-# Define the command as a string with a here-string
-$cmd6 = @"
-sudo tee -a /etc/apache2/sites-available/$domain.conf << EOF
+# Define the content to be appended to the file
+$content = @"
 <VirtualHost *:$port>
 ServerAdmin webmaster@localhost
 ServerName http://$domain
@@ -42,8 +41,10 @@ DocumentRoot /var/www/$domain/public_html
 ErrorLog \${APACHE_LOG_DIR}/error.log
 CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-EOF
 "@
+
+# Append the content to the file
+$cmd6 = "$content | Out-File -Append '/etc/apache2/sites-available/$domain.conf'"
 
 # Execute the command
 Invoke-Expression $cmd6
