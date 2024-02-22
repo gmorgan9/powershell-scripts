@@ -36,9 +36,9 @@ ServerAdmin webmaster@localhost
 ServerName http://$domain.com 
 ServerAlias http://www.$domain.com 
 DocumentRoot /var/www/$domain/public_html
-ErrorLog $\{APACHE_LOG_DIR}/error.log
-CustomLog $\{APACHE_LOG_DIR}/access.log combined
-</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$domain.conf"
+ErrorLog %{APACHE_LOG_DIR}/error.log
+CustomLog %{APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$domain.conf ; sudo sed -i 's/\%//g' /etc/apache2/sites-available/$domain.conf"
 
 # Execute the command
 Invoke-Expression $cmd6
