@@ -16,7 +16,9 @@ Write-Host "`n`n`n`n`n`n"
 
 # Prompt the user for input
 $domain = Read-Host "${blueBold}Enter the domain name (e.g., example.com)"
-$port = Read-Host "Enter the desired port${reset}"
+$port = Read-Host "Enter the desired port"
+
+"${reset}"
 
 # Construct the command with the provided domain
 $cmd1 = "sudo mkdir -p /var/www/$domain/public_html"
