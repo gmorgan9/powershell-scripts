@@ -18,7 +18,7 @@ Write-Host "`n`n`n`n`n`n"
 $domain = Read-Host "${blueBold}Enter the domain name (e.g., example.com)"
 $port = Read-Host "Enter the desired port"
 
-"${reset}"
+${reset}
 
 # Construct the command with the provided domain
 $cmd1 = "sudo mkdir -p /var/www/$domain/public_html"
@@ -72,6 +72,30 @@ $cmd9 = "sudo systemctl restart apache2"
 
 # Execute the command
 Invoke-Expression $cmd9
+
+
+# Prompt the user if they have a GitHub repository
+$response = Read-Host "${blueBold}Do you have a GitHub repository to copy over? (yes/no)"
+
+${reset}
+
+# Check the user's response
+if ($response -eq "yes") {
+    # If yes, ask for the GitHub repository link
+    $githubRepo = Read-Host "${blueBold}Enter the GitHub repository link"
+
+    ${reset}
+    
+    # Change directory to the public_html folder
+    cd "/var/www/$domain/public_html/"
+    
+    # Run git clone command
+    sudo git clone $githubRepo
+} 
+else {
+    # If no, display message
+    Write-Host "${orangeBold}Github repository not pulled in"
+}
 
 
 Write-Host "${greenBold}Process completed successfully.`n${reset}"
