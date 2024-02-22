@@ -31,20 +31,23 @@ $cmd5 = "sudo touch /etc/apache2/sites-available/$domain.conf"
 # Execute the command
 Invoke-Expression $cmd5
 
-$cmd6 = "sudo tee -a /etc/apache2/sites-available/$domain.conf << EOF
+# Define the command as a string with a here-string
+$cmd6 = @"
+sudo tee -a /etc/apache2/sites-available/$domain.conf << EOF
 <VirtualHost *:$port>
 ServerAdmin webmaster@localhost
-ServerName http://domain.com 
-ServerAlias http://www.domain.com 
-DocumentRoot /var/www/domain.com/public_html
-ErrorLog ${APACHE_LOG_DIR}/error.log
-CustomLog ${APACHE_LOG_DIR}/access.log combined
+ServerName http://$domain
+ServerAlias http://www.$domain
+DocumentRoot /var/www/$domain/public_html
+ErrorLog \${APACHE_LOG_DIR}/error.log
+CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
-"
+"@
 
 # Execute the command
 Invoke-Expression $cmd6
+
 
 $cmd7 = "echo 'Listen $port' | sudo tee -a /etc/apache2/ports.conf"
 
