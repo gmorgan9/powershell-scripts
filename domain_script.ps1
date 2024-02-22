@@ -99,8 +99,8 @@ else {
 }
 
 
-Clear-Host
-Write-Host "`n`n`n`n`n`n"
+# Clear-Host
+# Write-Host "`n`n`n`n`n`n"
 
 $checkMark = [char]0x2713
 
