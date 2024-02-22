@@ -46,7 +46,7 @@ $cmd5 = "echo '<VirtualHost *:$port>
 ServerAdmin webmaster@localhost
 ServerName http://$domain 
 ServerAlias http://www.$domain 
-DocumentRoot /var/www/$dir/public_html
+DocumentRoot /var/www/$dir/public_html/$dir
 ErrorLog $%{APACHE_LOG_DIR}/error.log
 CustomLog $%{APACHE_LOG_DIR}/access.log combined
 </VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$dir.conf ; sudo sed -i 's/\%//g' /etc/apache2/sites-available/$dir.conf"
