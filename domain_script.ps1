@@ -33,12 +33,12 @@ Invoke-Expression $cmd5
 
 $cmd6 = "echo '<VirtualHost *:$port>
 ServerAdmin webmaster@localhost
-ServerName http://domain.com 
-ServerAlias http://www.domain.com 
-DocumentRoot /var/www/domain.com/public_html
-ErrorLog ${APACHE_LOG_DIR}/error.log
-CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/domain.com.conf"
+ServerName http://$domain.com 
+ServerAlias http://www.$domain.com 
+DocumentRoot /var/www/$domain/public_html
+ErrorLog $\{APACHE_LOG_DIR}/error.log
+CustomLog $\{APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$domain.conf"
 
 # Execute the command
 Invoke-Expression $cmd6
