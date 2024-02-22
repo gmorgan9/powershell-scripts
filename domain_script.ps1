@@ -15,13 +15,14 @@ Clear-Host
 Write-Host "`n`n`n`n`n`n"
 
 # Prompt the user for input
-$domain = Read-Host "${blueBold}Enter the domain name (e.g., example.com)"
+$dir = Read-Host "${blueBold}Enter the directory name"
 $port = Read-Host "Enter the desired port"
+$domain = Read-Host "Enter the domain (e.g., example.com)"
 
 ${reset}
 
 # Construct the command with the provided domain
-$cmd1 = "sudo mkdir -p /var/www/$domain/public_html"
+$cmd1 = "sudo mkdir -p /var/www/$dir/public_html"
 
 # Execute the command
 Invoke-Expression $cmd1
@@ -31,24 +32,24 @@ $cmd2 = "sudo chmod -R 755 /var/www"
 # Execute the command
 Invoke-Expression $cmd2
 
-$cmd3 = "sudo touch /var/www/$domain/public_html/index.html"
+$cmd3 = "sudo touch /var/www/$dir/public_html/index.html"
 
 # Execute the command
 Invoke-Expression $cmd3
 
-$cmd4 = "echo 'Hello, world! Testing from $domain!' | sudo tee -a /var/www/$domain/public_html/index.html"
+$cmd4 = "echo 'Hello, world! Testing from $dir!' | sudo tee -a /var/www/$dir/public_html/index.html"
 
 # Execute the command
 Invoke-Expression $cmd4
 
 $cmd5 = "echo '<VirtualHost *:$port>
 ServerAdmin webmaster@localhost
-ServerName http://$domain.com 
-ServerAlias http://www.$domain.com 
-DocumentRoot /var/www/$domain/public_html
+ServerName http://$domain 
+ServerAlias http://www.$domain 
+DocumentRoot /var/www/$dir/public_html
 ErrorLog $%{APACHE_LOG_DIR}/error.log
 CustomLog $%{APACHE_LOG_DIR}/access.log combined
-</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$domain.conf ; sudo sed -i 's/\%//g' /etc/apache2/sites-available/$domain.conf"
+</VirtualHost>' | sudo tee -a /etc/apache2/sites-available/$dir.conf ; sudo sed -i 's/\%//g' /etc/apache2/sites-available/$dir.conf"
 
 # Execute the command
 Invoke-Expression $cmd5
@@ -63,7 +64,7 @@ $cmd7 = "sudo a2dissite 000-default.conf"
 # Execute the command
 Invoke-Expression $cmd7
 
-$cmd8 = "sudo a2ensite $domain.conf"
+$cmd8 = "sudo a2ensite $dir.conf"
 
 # Execute the command
 Invoke-Expression $cmd8
@@ -98,4 +99,11 @@ else {
 }
 
 
-Write-Host "${greenBold}Process completed successfully.`n${reset}"
+Clear-Host
+Write-Host "`n`n`n`n`n`n"
+
+$checkMark = [char]0x2713
+
+Write-Host "${greenBold}$checkMark Process completed successfully."
+
+${reset}
