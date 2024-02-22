@@ -1,9 +1,22 @@
+# Styles
+# Set foreground color to green and add bold style
+$greenBold = "`e[32;1m"
+$redBold = "`e[31;1m"
+$blueBold = "`e[34;1m"
+$purpleBold = "`e[35;1m"
+$yellowBold = "`e[33;1m"
+$orangeBold = "`e[38;5;208;1m"
+
+# Reset color and style
+$reset = "`e[0m"
+
+
 Clear-Host
 Write-Host "`n`n`n`n`n`n"
 
 # Prompt the user for input
-$domain = Read-Host "Enter the domain name (e.g., example.com)"
-$port = Read-Host "Enter the desired port"
+$domain = Read-Host "${blueBold}Enter the domain name (e.g., example.com)"
+$port = Read-Host "Enter the desired port`n${reset}"
 
 # Construct the command with the provided domain
 $cmd1 = "sudo mkdir -p /var/www/$domain/public_html"
@@ -59,4 +72,4 @@ $cmd9 = "sudo systemctl restart apache2"
 Invoke-Expression $cmd9
 
 
-Write-Host "Process completed successfully."
+Write-Host "${greenBold}Process completed successfully.`n${reset}"
