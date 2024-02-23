@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/powershell email_application.ps1
+/usr/local/bin/pwsh email_application.ps1
