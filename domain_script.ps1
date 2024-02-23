@@ -32,15 +32,15 @@ $cmd2 = "sudo chmod -R 755 /var/www"
 # Execute the command
 Invoke-Expression $cmd2
 
-$cmd3 = "sudo touch /var/www/$dir/public_html/index.html"
+# $cmd3 = "sudo touch /var/www/$dir/public_html/index.html"
 
 # Execute the command
-Invoke-Expression $cmd3
+# Invoke-Expression $cmd3
 
-$cmd4 = "echo 'Hello, world! Testing from $dir!' | sudo tee -a /var/www/$dir/public_html/index.html"
+# $cmd4 = "echo 'Hello, world! Testing from $dir!' | sudo tee -a /var/www/$dir/public_html/index.html"
 
 # Execute the command
-Invoke-Expression $cmd4
+# Invoke-Expression $cmd4
 
 $cmd5 = "echo '<VirtualHost *:$port>
 ServerAdmin webmaster@localhost
