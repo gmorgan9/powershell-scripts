@@ -1,3 +1,40 @@
+# Function to send email data to the database
+function SendToDatabase($emailData) {
+    # Set the headers
+    $headers = @{
+        "Content-Type" = "application/json"
+    }
+
+    # Process each email item
+    foreach ($email in $emailData) {
+        # Build the link with the correct format
+        $link = "https://mail.google.com/mail/u/0/#search/" + $email.MessageID
+
+        # Construct the email object
+        $emailObject = @{
+            "companyName" = "$companyName"
+            "subject" = $email.Subject
+            "sender" = $email.From
+            "link" = $link
+        }
+
+        # Convert the email object to JSON
+        $json = $emailObject | ConvertTo-Json
+
+        # Send the data using Invoke-RestMethod
+        $response = Invoke-RestMethod -Uri "https://db.morganserver.com/api/add_email.php" -Method Post -Headers $headers -Body $json
+
+        # Output the response
+        if ($response -ne "Data inserted successfully.") {
+            Write-Host "${redBold}Error occurred while recording emails: $response`n${reset}"
+        }
+    }
+}
+
+
+
+
+
 # Styles
 # Set foreground color to green and add bold style
 $greenBold = "`e[32;1m"
@@ -25,7 +62,7 @@ Write-Host "`n`n`n`n`n`n"
 
 # Fetch company names from the API
 try {
-    $companies = Invoke-RestMethod -Uri "https://db.morganserver.com/jms/api/companies.php" -Method Get
+    $companies = Invoke-RestMethod -Uri "https://db.morganserver.com/api/companies.php" -Method Get
 } catch {
     Write-Error "Failed to fetch company names from the API."
     exit
@@ -68,13 +105,8 @@ foreach ($companyName in $companyNames) {
             Write-Host "`n"
             Write-Output "${greenBold}Read emails containing $companyName"
         
-            foreach ($readEmail in $readEmailsContainingPhrase) {
-                Write-Output "${yellowBold}Subject: $($readEmail.Subject)"
-                Write-Output "${yellowBold}From: $($readEmail.From)"
-                
-                # Add email details to the array
-                $allEmailsContainingPhrase += $readEmail
-            }
+            # Send email data to the database
+            SendToDatabase $readEmailsContainingPhrase
         } else {
             # No read emails found
             Write-Host "`n"
@@ -109,13 +141,8 @@ foreach ($companyName in $companyNames) {
             Write-Output "${greenBold}Unread emails containing $companyName"
             Write-Host "`n"
         
-            foreach ($unreadEmail in $unreadEmailsContainingPhrase) {
-                Write-Output "${yellowBold}Subject: $($unreadEmail.Subject)"
-                Write-Output "${yellowBold}From: $($unreadEmail.From)"
-                
-                # Add email details to the array
-                $allEmailsContainingPhrase += $unreadEmail
-            }
+            # Send email data to the database
+            SendToDatabase $unreadEmailsContainingPhrase
         } else {
             # No unread emails found
             Write-Host "`n"
@@ -125,40 +152,5 @@ foreach ($companyName in $companyNames) {
         Write-Error "Error occurred while processing emails for $companyName $_"
     }
 
-    # Construct an array to store custom email objects for the current company
-    $customEmailObjects = @()
-
-    # Loop through each email containing the specified phrase for the current company
-    foreach ($email in $allEmailsContainingPhrase) {
-        # Create a custom email object with desired keys
-        # Remove angle brackets from MessageID
-        $cleanMessageID = $email.MessageID.Replace('<', '').Replace('>', '')
-    
-        # Create the custom email object
-        $customEmailObject = [PSCustomObject]@{
-            "companyName" = $companyName
-            "subject" = $email.Subject
-            "sender" = $email.From
-            "link" = "https://mail.google.com/mail/u/0/#search/rfc822msgid:" + $cleanMessageID
-        }
-
-        # Add the custom email object to the array
-        $customEmailObjects += $customEmailObject
-    }
-
-    # Convert the array of custom email objects to JSON with customized keys
-    $json = $customEmailObjects | ConvertTo-Json
-
-    # Write-Host "Data to be sent for $companyName : $json"
-
-    # Set the headers
-    $headers = @{
-        "Content-Type" = "application/json"
-    }
-
-    # Send the data using Invoke-RestMethod
-    $response = Invoke-RestMethod -Uri "https://db.morganserver.com/jms/api/add_email.php" -Method Post -Headers $headers -Body $json
-
-    Write-Host "${greenBold}Emails for $companyName were successfully recorded!`n${reset}"
     Write-Host "-----------------------------------------"
 }
