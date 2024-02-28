@@ -31,10 +31,6 @@ function SendToDatabase($emailData) {
     }
 }
 
-
-
-
-
 # Styles
 # Set foreground color to green and add bold style
 $greenBold = "`e[32;1m"

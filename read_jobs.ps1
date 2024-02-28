@@ -52,7 +52,7 @@ $message = @{
 $jsonMessage = $message | ConvertTo-Json -Depth 5
 
 # Set your Slack webhook URL
-$slackWebhookUrl = "https://hooks.slack.com/services/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"
+$slackWebhookUrl = $env:SLACK_WEBHOOK_URL
 
 # Send message to Slack
 Invoke-RestMethod -Uri $slackWebhookUrl -Method Post -Body $jsonMessage -ContentType 'application/json'
