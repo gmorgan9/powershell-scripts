@@ -124,7 +124,7 @@ if ($confirmation -eq "Y" -or $confirmation -eq "y") {
     }
 
     # Send the data using Invoke-RestMethod
-    $response = Invoke-RestMethod -Uri "https://careerhub.morganserver.com/api/add_application.php" -Method Post -Headers $headers -Body $json
+    $response = Invoke-RestMethod -Uri "https://careerhub.morganserver.com/api/add_job.php" -Method Post -Headers $headers -Body $json
 
     Write-Host "${greenBold}Application was successfully recorded!`n${reset}"
 } else {
