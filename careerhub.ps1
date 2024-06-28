@@ -13,7 +13,7 @@ $reset = "`e[0m"
 # Clear the console
 Clear-Host
 Write-Host "`n`n`n`n`n`n"
-Write-Host "${blueBold}Please enter a url for the application you want to record!`n${reset}"
+Write-Host "${blueBold}Please enter a url for the job you want to record!`n${reset}"
 
 # Prompt user for URL
 
@@ -72,7 +72,7 @@ function EditField($fieldName, $currentValue) {
 }
 
 # Output job information to console
-Write-Host "`n`n${greenBold}App Link:${reset} $url"
+Write-Host "`n`n${greenBold}Job Link:${reset} $url"
 Write-Host "${greenBold}Job Title:${reset} $title"
 Write-Host "${greenBold}Company Name:${reset} $company"
 Write-Host "${greenBold}Location:${reset} $location"
@@ -92,7 +92,7 @@ if ($editConfirmation -eq "Y" -or $editConfirmation -eq "y") {
 
     # Output newly updated fields
     Write-Host "`n`n${greenBold}Updated Fields:${reset}"
-    Write-Host "${greenBold}App Link:${reset} $url"
+    Write-Host "${greenBold}Job Link:${reset} $url"
     Write-Host "${greenBold}Job Title:${reset} $title"
     Write-Host "${greenBold}Company Name:${reset} $company"
     Write-Host "${greenBold}Location:${reset} $location"
@@ -108,7 +108,7 @@ if ($confirmation -eq "Y" -or $confirmation -eq "y") {
 
     # Define the data as a hashtable
     $data = @{
-        app_link = $url
+        job_link = $url
         job_title = $title
         company = $company
         location = $location
